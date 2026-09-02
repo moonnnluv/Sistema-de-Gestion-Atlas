@@ -1,0 +1,14 @@
+{
+  "name": "atlas",
+  "version": "1.0.0",
+  "description": "atlas",
+  "main": "index.js",
+  "scripts": {
+    "install-backend": "cd BACKEND && npm install",
+    "install-frontend": "cd FRONTEND && npm install",
+    "start-backend": "cd BACKEND && npm run start",
+    "start-frontend": "cd FRONTEND && npm run dev",
+    "start": "npm run start-backend && npm run start-frontend",
+    "install": "npm run install-backend && npm run install-frontend"
+  }
+}

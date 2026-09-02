@@ -1,0 +1,70 @@
+services:
+  atlas-postgres:
+    image: postgres:15-alpine
+    container_name: atlas-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-atlas}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${PORT_POSTGRES:-15432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./BACKEND/sql/dump-atlas.sql:/tmp/dump-atlas.sql:ro
+      - ./BACKEND/sql/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-atlas}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - atlas-network
+    restart: unless-stopped
+
+  atlas-backend:
+    build:
+      context: ./BACKEND
+      dockerfile: Dockerfile
+    container_name: atlas-backend
+    hostname: atlas-api
+    environment:
+      - PORT=4000
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@atlas-postgres:5432/${POSTGRES_DB:-atlas}
+      - NODE_ENV=${NODE_ENV:-production}
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key-change-in-production}
+    ports:
+      - "${PORT_BACKEND:-4450}:4000"
+    depends_on:
+      atlas-postgres:
+        condition: service_healthy
+    volumes:
+      - ./BACKEND/uploads:/app/uploads
+    networks:
+      - atlas-network
+    restart: unless-stopped
+
+  atlas-frontend:
+    build:
+      context: ./FRONTEND
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: "http://localhost:${PORT_BACKEND:-4450}"
+    container_name: atlas-frontend
+    hostname: atlas-web
+    ports:
+      - "${PORT_FRONTEND:-3350}:80"
+    depends_on:
+      - atlas-backend
+    networks:
+      - atlas-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  atlas-network:
+    driver: bridge
+    name: atlas-network
+

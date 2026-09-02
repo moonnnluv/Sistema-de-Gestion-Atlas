@@ -1,0 +1,803 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Atlas API (español)",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "http://localhost:4450" }],
+  "paths": {
+    "/autenticacion/login": {
+      "post": {
+        "summary": "Iniciar sesión",
+        "description": "Retorna un token JWT que incluye: usuarioId, nombreUsuario, empresaUsuarioId, empresaId",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre_usuario": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["nombre_usuario", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "Token JWT con información del usuario y empresa"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Credenciales inválidas" }
+        }
+      }
+    },
+    "/usuarios": {
+      "get": {
+        "summary": "Listar usuarios",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Crear usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UsuarioCrear" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Creado" } }
+      }
+    },
+    "/usuarios/{id}": {
+      "get": {
+        "summary": "Obtener usuario",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "put": {
+        "summary": "Actualizar usuario",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UsuarioCrear" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "summary": "Eliminar usuario",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/clientes": {
+      "get": {
+        "summary": "Listar clientes",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Crear cliente",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Cliente" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Creado" } }
+      }
+    },
+    "/clientes/search": {
+      "get": {
+        "summary": "Buscar clientes por nombre",
+        "description": "Busca clientes por nombre (filtrado por empresa del token)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "schema": { "type": "string" },
+            "description": "Nombre del cliente a buscar"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    },
+    "/clientes/{id}": {
+      "get": {
+        "summary": "Obtener cliente",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "put": {
+        "summary": "Actualizar cliente",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Cliente" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "summary": "Eliminar cliente",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/contratos": {
+      "get": {
+        "summary": "Listar contratos",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Crear contrato con archivo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": { "$ref": "#/components/schemas/ContratoForm" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Creado" } }
+      }
+    },
+    "/contratos/estados": {
+      "get": {
+        "summary": "Obtener contratos por estado",
+        "description": "Retorna un array con contratos por estado (por_vencer y vencido). Máximo 3 contratos por cada estado, filtrados por empresa del token.",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContratoConEstado"
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    },
+    "/contratos/dashboard": {
+      "get": {
+        "summary": "Dashboard con estadísticas de la empresa",
+        "description": "Retorna estadísticas de la empresa: total usuarios, total clientes y contratos que vencen en 7, 15 y 30 días.",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
+                }
+              }
+            }
+          },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    },
+    "/contratos/{id}": {
+      "get": {
+        "summary": "Obtener contrato",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "put": {
+        "summary": "Actualizar contrato",
+        "description": "Actualiza los datos de un contrato. Todos los campos son opcionales. Si se envía un archivo, se agregará como nuevo documento manteniendo el historial.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cliente_id": { "type": "integer" },
+                  "titulo": { "type": "string" },
+                  "descripcion": { "type": "string" },
+                  "fecha_inicio": { "type": "string", "format": "date" },
+                  "fecha_fin": { "type": "string", "format": "date" },
+                  "file": { "type": "string", "format": "binary" }
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cliente_id": { "type": "integer" },
+                  "titulo": { "type": "string" },
+                  "descripcion": { "type": "string" },
+                  "fecha_inicio": { "type": "string", "format": "date" },
+                  "fecha_fin": { "type": "string", "format": "date" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer" },
+                    "cliente_id": { "type": "integer" },
+                    "titulo": { "type": "string" },
+                    "descripcion": { "type": "string" },
+                    "fecha_inicio": { "type": "string", "format": "date" },
+                    "fecha_fin": { "type": "string", "format": "date" },
+                    "created_at": { "type": "string", "format": "date-time" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "No autorizado" },
+          "404": {
+            "description": "Contrato no encontrado o no pertenece a tu empresa"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar contrato",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/contratos/{id}/file": {
+      "get": {
+        "summary": "Ver archivo PDF del contrato",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/auditoria": {
+      "get": {
+        "summary": "Listar auditoría",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Registrar auditoría",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AuditoriaCrear" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Creado" } }
+      }
+    },
+    "/empresas": {
+      "get": {
+        "summary": "Listar empresas",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Crear empresa",
+        "description": "Acepta dos formatos: formato simple (solo empresa) o formato completo (empresa con usuario). Si se envía usuario y empresa, crea automáticamente el usuario, la empresa y la relación empresa-usuario con rol administrador.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  { "$ref": "#/components/schemas/Empresa" },
+                  { "$ref": "#/components/schemas/EmpresaConUsuario" }
+                ]
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Creado" } }
+      }
+    },
+    "/empresas/{id}": {
+      "get": {
+        "summary": "Obtener empresa",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "put": {
+        "summary": "Actualizar empresa",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Empresa" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "summary": "Eliminar empresa",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/roles": {
+      "get": {
+        "summary": "Listar roles",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Crear rol",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Rol" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Creado" } }
+      }
+    },
+    "/roles/{id}": {
+      "get": {
+        "summary": "Obtener rol",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "put": {
+        "summary": "Actualizar rol",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Rol" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "summary": "Eliminar rol",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/empresa-usuarios": {
+      "get": {
+        "summary": "Listar vínculos empresa-usuarios",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Crear vínculo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EmpresaUsuario" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Creado" } }
+      }
+    },
+    "/empresa-usuarios/{id}": {
+      "get": {
+        "summary": "Obtener vínculo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "put": {
+        "summary": "Actualizar vínculo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EmpresaUsuario" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "summary": "Eliminar vínculo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/metricas": {
+      "get": {
+        "summary": "Obtener métricas de la empresa",
+        "description": "Retorna información sobre contratos próximos a vencer, contratos vencidos y métricas generales de la empresa (usuarios, clientes, contratos que vencen en 15 y 30 días).",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Metricas"
+                }
+              }
+            }
+          },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UsuarioCrear": {
+        "type": "object",
+        "properties": {
+          "nombre_usuario": { "type": "string" },
+          "contrasena_hash": { "type": "string" },
+          "correo": { "type": "string" }
+        },
+        "required": ["nombre_usuario", "contrasena_hash", "correo"]
+      },
+      "Cliente": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string" },
+          "correo": { "type": "string" },
+          "telefono": { "type": "string" },
+          "direccion": { "type": "string" },
+          "es_empresa": { "type": "boolean" },
+          "nombre_banco": { "type": "string" },
+          "numero_cuenta": { "type": "string" },
+          "titular_cuenta": { "type": "string" }
+        },
+        "required": ["nombre", "correo"],
+        "description": "El campo empresa_id se obtiene automáticamente del token JWT"
+      },
+      "ContratoForm": {
+        "type": "object",
+        "properties": {
+          "cliente_id": { "type": "integer" },
+          "titulo": { "type": "string" },
+          "descripcion": { "type": "string" },
+          "fecha_inicio": { "type": "string", "format": "date" },
+          "fecha_fin": { "type": "string", "format": "date" },
+          "file": { "type": "string", "format": "binary" }
+        },
+        "required": [
+          "cliente_id",
+          "titulo",
+          "fecha_inicio",
+          "fecha_fin",
+          "file"
+        ]
+      },
+      "AuditoriaCrear": {
+        "type": "object",
+        "properties": {
+          "accion": { "type": "string" },
+          "detalles": { "type": "string" }
+        },
+        "required": ["accion"]
+      },
+      "Empresa": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string" },
+          "direccion": { "type": "string" },
+          "telefono": { "type": "string" },
+          "correo": { "type": "string" }
+        },
+        "required": ["nombre", "correo"]
+      },
+      "Rol": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string" }
+        },
+        "required": ["nombre"]
+      },
+      "EmpresaUsuario": {
+        "type": "object",
+        "properties": {
+          "empresa_id": { "type": "integer" },
+          "usuario_id": { "type": "integer" },
+          "rol_id": { "type": "integer" }
+        },
+        "required": ["empresa_id", "usuario_id", "rol_id"]
+      },
+      "ContratoConEstado": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "cliente_id": { "type": "integer" },
+          "titulo": { "type": "string" },
+          "descripcion": { "type": "string" },
+          "fecha_inicio": { "type": "string", "format": "date" },
+          "fecha_fin": { "type": "string", "format": "date" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "estado": { "type": "string", "enum": ["por_vencer", "vencido"] }
+        }
+      },
+      "Dashboard": {
+        "type": "object",
+        "properties": {
+          "totalUsuarios": {
+            "type": "integer",
+            "description": "Total de usuarios asociados a la empresa"
+          },
+          "totalClientes": {
+            "type": "integer",
+            "description": "Total de clientes de la empresa"
+          },
+          "contratosVencen7Dias": {
+            "type": "integer",
+            "description": "Contratos que vencen en los próximos 7 días"
+          },
+          "contratosVencen15Dias": {
+            "type": "integer",
+            "description": "Contratos que vencen en los próximos 15 días"
+          },
+          "contratosVencen30Dias": {
+            "type": "integer",
+            "description": "Contratos que vencen en los próximos 30 días"
+          }
+        }
+      },
+      "EmpresaConUsuario": {
+        "type": "object",
+        "properties": {
+          "usuario": {
+            "type": "object",
+            "properties": {
+              "nombre_usuario": { "type": "string" },
+              "contrasena_hash": { "type": "string" },
+              "correo": { "type": "string" }
+            },
+            "required": ["nombre_usuario", "contrasena_hash", "correo"]
+          },
+          "empresa": {
+            "$ref": "#/components/schemas/Empresa"
+          }
+        },
+        "required": ["usuario", "empresa"]
+      },
+      "ContratoProximoAVencer": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "cliente": { "type": "string" },
+          "fechaVencimiento": { "type": "string", "format": "date" },
+          "diasRestantes": { "type": "integer" }
+        }
+      },
+      "ContratoVencido": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "cliente": { "type": "string" },
+          "fechaVencimiento": { "type": "string", "format": "date" },
+          "diasVencidos": { "type": "integer" }
+        }
+      },
+      "MetricasEmpresa": {
+        "type": "object",
+        "properties": {
+          "totalUsuarios": {
+            "type": "integer",
+            "description": "Cantidad de usuarios asociados a la empresa"
+          },
+          "totalClientes": {
+            "type": "integer",
+            "description": "Cantidad de clientes de la empresa"
+          },
+          "contratos15Dias": {
+            "type": "integer",
+            "description": "Cantidad de contratos que vencen en los siguientes 15 días"
+          },
+          "contratos30Dias": {
+            "type": "integer",
+            "description": "Cantidad de contratos que vencen en los siguientes 30 días"
+          }
+        }
+      },
+      "Metricas": {
+        "type": "object",
+        "properties": {
+          "contratosProximosAVencer": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ContratoProximoAVencer" },
+            "description": "10 contratos próximos a vencer"
+          },
+          "contratosVencidos": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ContratoVencido" },
+            "description": "10 contratos ya vencidos"
+          },
+          "metricas": {
+            "$ref": "#/components/schemas/MetricasEmpresa"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Token JWT obtenido del endpoint /autenticacion/login"
+      }
+    }
+  }
+}
