@@ -1,0 +1,16 @@
+$ TOKEN=$(curl -s -X POST /autenticacion/login -d '{"nombre_usuario":"editor",...}')  # rol editor
+
+
+$ echo $TOKEN | decodificar payload (JWT)
+{
+ "usuarioId": "2",
+ "nombreUsuario": "editor",
+ "empresaUsuarioId": "2",
+ "empresaId": "1",
+ "iat": 1792272419,
+ "exp": 1792279619
+}
+
+$ curl -X POST /clientes (token de EDITOR) -> crear cliente
+{"id":"60","nombre":"Creado por EDITOR","correo":"ev_editor@evidencia.cl","telefono":null,"direccion":null,"es_empresa":false,"rut":null,"nombre_fantasia":null,"giro_actividad_economica":null,"nombre_
+HTTP 201

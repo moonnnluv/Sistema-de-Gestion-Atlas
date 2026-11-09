@@ -1,0 +1,10 @@
+$ curl -s -w ' HTTP %{http_code}' localhost:4450/usuarios/1  # sin token
+{"id":"1","nombre_usuario":"admin","correo":"admin@atlasfake.com","created_at":"2026-10-17T21:24:39.785Z"} HTTP 200
+
+$ curl -s localhost:4450/auditoria  # sin token (primeras filas)
+[{"id":"189","usuario_id":"editor","accion":"CLIENTES_CREAR: creó cliente Creado por EDITOR","fecha_hora":"2026-10-17T21:27:04.074Z"},{"id":"188","usuario_id":"editor","accion":"LOGIN: usuario inició sesión","fecha_hora":"2026-10-17T21:27:04.047Z"},{"id":"187","usuario_id":"editor","accion":"LOGIN: usuario inició sesión","f
+HTTP 200
+
+$ curl -s localhost:4450/empresas  # sin token
+[{"id":"3","nombre":"Empresa C","direccion":null,"telefono":null,"correo":"empresac_1792272284788566@t.cl","created_at":"2026-10-17T21:26:07.356Z"},{"id":"2","nombre":"Empresa B","direccion":null,"telefono":null,"correo":"empresab_1792272284788566@test.cl","created_at":"2026-10-17T21:24:52.963Z"},{"
+HTTP 200

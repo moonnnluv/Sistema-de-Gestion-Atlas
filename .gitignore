@@ -1,2 +1,18 @@
-BACKEND/node_modules
-FRONTEND/node_modules
+# Dependencias
+node_modules/
+
+# Secretos
+.env
+.env.*
+!.env.example
+
+# Archivos subidos por usuarios (se mantiene la carpeta)
+BACKEND/uploads/*
+!BACKEND/uploads/.gitkeep
+
+# Artefactos de pruebas (Encargo 2)
+atlas-tests/server.log
+atlas-tests/jest-salida.txt
+atlas-tests/evidence/jest-output.txt
+atlas-tests/evidence/backup-atlas.sql
+*.log

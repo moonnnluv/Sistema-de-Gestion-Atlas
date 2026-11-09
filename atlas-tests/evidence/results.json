@@ -1,0 +1,557 @@
+{
+  "CP-01": {
+    "id": "CP-01",
+    "subpruebas": [
+      {
+        "descripcion": "Hash bcrypt en BD tras POST /usuarios",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 201; valor almacenado='Prueba#2026'; usuarios semilla: admin='admin', editor='editor'"
+      }
+    ]
+  },
+  "CP-02": {
+    "id": "CP-02",
+    "subpruebas": [
+      {
+        "descripcion": "Editor: POST /clientes rechazado (403)",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 201. payload JWT editor={\"usuarioId\":\"2\",\"nombreUsuario\":\"editor\",\"empresaUsuarioId\":\"2\",\"empresaId\":\"1\",\"iat\":1792284839,\"exp\":1792292039}"
+      },
+      {
+        "descripcion": "Editor: PUT /clientes/:id rechazado (403)",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200"
+      },
+      {
+        "descripcion": "Editor: DELETE /clientes/:id rechazado (403)",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200; cliente existe despues=false"
+      }
+    ]
+  },
+  "CP-03": {
+    "id": "CP-03",
+    "subpruebas": [
+      {
+        "descripcion": "Contrato con fin en el pasado figura como 'vencido'",
+        "resultado": "APROBADO",
+        "observado": "estado=vencido"
+      },
+      {
+        "descripcion": "Contrato que termina en 15 dias figura como 'por_vencer'",
+        "resultado": "APROBADO",
+        "observado": "estado=por_vencer"
+      },
+      {
+        "descripcion": "Contrato vigente figura como 'activo'",
+        "resultado": "FALLIDO",
+        "observado": "/contratos/estados=\"no listado\"; GET /contratos/:id campos=id,cliente_id,titulo,descripcion,fecha_inicio,fecha_fin,created_at"
+      }
+    ]
+  },
+  "CP-04": {
+    "id": "CP-04",
+    "subpruebas": [
+      {
+        "descripcion": "POST /clientes (50 it.)",
+        "resultado": "APROBADO",
+        "observado": "POST /clientes (50 it.): n=50 prom=14ms p95=17ms p99=18ms max=18ms"
+      },
+      {
+        "descripcion": "GET /clientes/:id (50 it.)",
+        "resultado": "APROBADO",
+        "observado": "GET /clientes/:id (50 it.): n=50 prom=13ms p95=21ms p99=29ms max=29ms"
+      },
+      {
+        "descripcion": "PUT /clientes/:id (50 it.)",
+        "resultado": "APROBADO",
+        "observado": "PUT /clientes/:id (50 it.): n=50 prom=34ms p95=69ms p99=162ms max=162ms"
+      },
+      {
+        "descripcion": "DELETE /clientes/:id (50 it.)",
+        "resultado": "APROBADO",
+        "observado": "DELETE /clientes/:id (50 it.): n=50 prom=17ms p95=24ms p99=29ms max=29ms"
+      },
+      {
+        "descripcion": "GET /clientes lista (10 it.)",
+        "resultado": "FALLIDO",
+        "observado": "GET /clientes lista (10 it.): n=10 prom=4015ms p95=4074ms p99=4074ms max=4074ms"
+      },
+      {
+        "descripcion": "GET /contratos lista (3 it.)",
+        "resultado": "FALLIDO",
+        "observado": "GET /contratos lista (3 it.): n=3 prom=4027ms p95=4037ms p99=4037ms max=4037ms"
+      },
+      {
+        "descripcion": "POST /autenticacion/login (3 it.)",
+        "resultado": "FALLIDO",
+        "observado": "POST /autenticacion/login (3 it.): n=3 prom=4005ms p95=4016ms p99=4016ms max=4016ms"
+      }
+    ]
+  },
+  "CP-05": {
+    "id": "CP-05",
+    "subpruebas": [
+      {
+        "descripcion": "GET cliente de B con token de A rechazado (403/404)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 404"
+      },
+      {
+        "descripcion": "PUT cliente de B con token de A rechazado",
+        "resultado": "APROBADO",
+        "observado": "HTTP 404"
+      },
+      {
+        "descripcion": "DELETE cliente de B con token de A rechazado",
+        "resultado": "APROBADO",
+        "observado": "HTTP 404; cliente de B sigue en BD='Cliente de B'"
+      },
+      {
+        "descripcion": "Listado de A no incluye clientes de B",
+        "resultado": "APROBADO",
+        "observado": "listado de A: 8 clientes; incluye id 114=false"
+      }
+    ]
+  },
+  "CP-06": {
+    "id": "CP-06",
+    "subpruebas": [
+      {
+        "descripcion": "Rechaza sin token (401)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 401"
+      },
+      {
+        "descripcion": "Rechaza token malformado 'Bearer abc' (401)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 401"
+      },
+      {
+        "descripcion": "Rechaza payload alterado (empresaId=999) (401)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 401"
+      },
+      {
+        "descripcion": "Rechaza token expirado (401)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 401"
+      },
+      {
+        "descripcion": "Rechaza alg=none (401)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 401"
+      },
+      {
+        "descripcion": "Rechaza firmado con otra clave (401)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 401"
+      },
+      {
+        "descripcion": "Acepta token valido (200)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 200"
+      }
+    ]
+  },
+  "CP-07": {
+    "id": "CP-07",
+    "subpruebas": [
+      {
+        "descripcion": "Existe endpoint de cierre de sesion (2xx)",
+        "resultado": "FALLIDO",
+        "observado": "POST /autenticacion/logout -> HTTP 404"
+      },
+      {
+        "descripcion": "Token deja de ser valido tras cerrar sesion (401)",
+        "resultado": "FALLIDO",
+        "observado": "GET /clientes/1 con el mismo token -> HTTP 200"
+      },
+      {
+        "descripcion": "Vigencia del token (referencia: corta vigencia)",
+        "resultado": "APROBADO",
+        "observado": "exp-iat=2 h"
+      }
+    ]
+  },
+  "CP-08": {
+    "id": "CP-08",
+    "subpruebas": [
+      {
+        "descripcion": "GET /usuarios/1 sin token rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200 cuerpo={\"id\":\"1\",\"nombre_usuario\":\"admin\",\"correo\":\"admin@atlasfake.com\",\"created_at\":\"2026-10-18"
+      },
+      {
+        "descripcion": "GET /auditoria sin token rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200 filas=511"
+      },
+      {
+        "descripcion": "GET /empresas sin token rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200"
+      },
+      {
+        "descripcion": "GET /roles sin token rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200"
+      },
+      {
+        "descripcion": "GET /empresa-usuarios/1 sin token rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200"
+      },
+      {
+        "descripcion": "GET /contratos/1 sin token rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200"
+      },
+      {
+        "descripcion": "POST /usuarios sin token rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 201"
+      },
+      {
+        "descripcion": "PUT /usuarios/:id sin token rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 500"
+      },
+      {
+        "descripcion": "DELETE /usuarios/:id sin token rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 500"
+      },
+      {
+        "descripcion": "Usuario victima sigue existiendo tras DELETE anonimo",
+        "resultado": "FALLIDO",
+        "observado": "existe en BD=false"
+      }
+    ]
+  },
+  "CP-09": {
+    "id": "CP-09",
+    "subpruebas": [
+      {
+        "descripcion": "GET /contratos/:id de otra empresa rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200; titulo expuesto='Confidencial A 1792284831472386'"
+      },
+      {
+        "descripcion": "GET /contratos/:id/file de otra empresa rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200; bytes recibidos=595"
+      },
+      {
+        "descripcion": "PUT /contratos/:id de otra empresa rechazado",
+        "resultado": "APROBADO",
+        "observado": "HTTP 404"
+      },
+      {
+        "descripcion": "DELETE /contratos/:id de otra empresa rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200; contrato sigue en BD=false"
+      }
+    ]
+  },
+  "CP-10": {
+    "id": "CP-10",
+    "subpruebas": [
+      {
+        "descripcion": "POST /empresas (usuario+empresa) responde 201",
+        "resultado": "APROBADO",
+        "observado": "HTTP 201"
+      },
+      {
+        "descripcion": "Se asigna rol administrador (rol_id=1) al registrante",
+        "resultado": "APROBADO",
+        "observado": "rol_id en empresa_usuarios=1"
+      },
+      {
+        "descripcion": "El nuevo administrador inicia sesion y su token incluye empresaId",
+        "resultado": "APROBADO",
+        "observado": "login HTTP 200; empresaId=8"
+      },
+      {
+        "descripcion": "Administrador agrega usuario editor a su empresa (RF-3)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 201"
+      },
+      {
+        "descripcion": "Listado muestra el rol 'editor' del nuevo usuario",
+        "resultado": "APROBADO",
+        "observado": "rol_nombre=editor"
+      }
+    ]
+  },
+  "CP-11": {
+    "id": "CP-11",
+    "subpruebas": [
+      {
+        "descripcion": "El correo duplicado no genera una segunda empresa",
+        "resultado": "APROBADO",
+        "observado": "HTTP 500"
+      },
+      {
+        "descripcion": "Responde error de cliente 4xx (400/409), no 500",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 500"
+      },
+      {
+        "descripcion": "La respuesta no expone detalles internos de la BD",
+        "resultado": "FALLIDO",
+        "observado": "cuerpo={\"error\":\"Error al crear empresa con usuario\",\"glosa\":\"duplicate key value violates unique constraint \\\"empresas_correo_key\\\"\"}"
+      },
+      {
+        "descripcion": "No queda un usuario huerfano si falla la creacion de la empresa",
+        "resultado": "FALLIDO",
+        "observado": "usuarios huerfanos en BD=1"
+      }
+    ]
+  },
+  "CP-12": {
+    "id": "CP-12",
+    "subpruebas": [
+      {
+        "descripcion": "Login con ' OR '1'='1 en usuario rechazado (401)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 401"
+      },
+      {
+        "descripcion": "Login con ' OR '1'='1 en contrasena rechazado (401)",
+        "resultado": "APROBADO",
+        "observado": "HTTP 401"
+      },
+      {
+        "descripcion": "Busqueda con DROP TABLE no devuelve datos ajenos",
+        "resultado": "APROBADO",
+        "observado": "HTTP 200; filas=0"
+      },
+      {
+        "descripcion": "Parametro id con 'OR 1=1' no devuelve datos de otras filas",
+        "resultado": "APROBADO",
+        "observado": "HTTP 500"
+      },
+      {
+        "descripcion": "Tabla clientes intacta tras los intentos",
+        "resultado": "APROBADO",
+        "observado": "clientes antes=11, despues=11"
+      }
+    ]
+  },
+  "CP-13": {
+    "id": "CP-13",
+    "subpruebas": [
+      {
+        "descripcion": "El backend sanea o rechaza <script> en el nombre del cliente",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 201; nombre devuelto='<script>alert('XSS')</script>'"
+      },
+      {
+        "descripcion": "Mitigacion en el frontend (sin dangerouslySetInnerHTML/innerHTML)",
+        "resultado": "APROBADO",
+        "observado": "usos de sinks de HTML en FRONTEND/src=0"
+      }
+    ]
+  },
+  "CP-14": {
+    "id": "CP-14",
+    "subpruebas": [
+      {
+        "descripcion": "Subida de PDF de 5 MB responde 201",
+        "resultado": "APROBADO",
+        "observado": "HTTP 201"
+      },
+      {
+        "descripcion": "Subida de PDF de 5 MB en menos de 10 s",
+        "resultado": "APROBADO",
+        "observado": "153 ms"
+      },
+      {
+        "descripcion": "Descarga identica byte a byte y en menos de 10 s",
+        "resultado": "APROBADO",
+        "observado": "136 ms; identico=true"
+      },
+      {
+        "descripcion": "Rechaza ejecutable (.exe)",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 201"
+      },
+      {
+        "descripcion": "Rechaza HTML (.html)",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 201"
+      },
+      {
+        "descripcion": "Rechaza archivo de 25 MB (limite de tamano)",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 201"
+      },
+      {
+        "descripcion": "Content-Type de la descarga corresponde al archivo (PNG)",
+        "resultado": "FALLIDO",
+        "observado": "Content-Type devuelto='application/pdf' para un PNG"
+      }
+    ]
+  },
+  "CP-15": {
+    "id": "CP-15",
+    "subpruebas": [
+      {
+        "descripcion": "Registra creacion de cliente con el usuario",
+        "resultado": "APROBADO",
+        "observado": "ver listado"
+      },
+      {
+        "descripcion": "Registra edicion de cliente con el usuario",
+        "resultado": "APROBADO",
+        "observado": "ver listado"
+      },
+      {
+        "descripcion": "Registra eliminacion de cliente con el usuario",
+        "resultado": "APROBADO",
+        "observado": "ver listado"
+      },
+      {
+        "descripcion": "Registra creacion de contrato con el usuario",
+        "resultado": "APROBADO",
+        "observado": "ver listado"
+      },
+      {
+        "descripcion": "Registra la SUBIDA de documento",
+        "resultado": "FALLIDO",
+        "observado": "ver listado"
+      },
+      {
+        "descripcion": "Registra la DESCARGA de documento",
+        "resultado": "FALLIDO",
+        "observado": "ver listado"
+      },
+      {
+        "descripcion": "Entradas generadas durante la prueba",
+        "resultado": "APROBADO",
+        "observado": "admin|CLIENTES_CREAR: creó cliente Auditado ;; admin|CLIENTES_ACTUALIZAR: actualizó cliente ID 168 ;; admin|CLIENTES_ELIMINAR: eliminó cliente ID 168 ;; admin|CONTRATOS_CREAR: creó contrato Aud 1792284831472386 para cliente 1"
+      }
+    ]
+  },
+  "CP-16": {
+    "id": "CP-16",
+    "subpruebas": [
+      {
+        "descripcion": "El log no contiene contrasenas",
+        "resultado": "APROBADO",
+        "observado": "lineas=225"
+      },
+      {
+        "descripcion": "El log no contiene tokens JWT completos",
+        "resultado": "APROBADO",
+        "observado": "lineas=225"
+      },
+      {
+        "descripcion": "Observacion: el log imprime el payload del token (identificadores)",
+        "resultado": "APROBADO",
+        "observado": "sin coincidencias"
+      }
+    ]
+  },
+  "CP-17": {
+    "id": "CP-17",
+    "subpruebas": [
+      {
+        "descripcion": "numero_cuenta almacenado cifrado",
+        "resultado": "FALLIDO",
+        "observado": "numero_cuenta='4567891230', banco='Banco BCI', titular='Constructora Andes Ltda.'"
+      }
+    ]
+  },
+  "CP-18": {
+    "id": "CP-18",
+    "subpruebas": [
+      {
+        "descripcion": "La API acepta conexiones HTTPS",
+        "resultado": "FALLIDO",
+        "observado": "sin TLS (EPROTO)"
+      },
+      {
+        "descripcion": "Cabeceras de seguridad presentes (CSP, HSTS, nosniff, X-Frame-Options)",
+        "resultado": "FALLIDO",
+        "observado": "faltan: content-security-policy, strict-transport-security, x-content-type-options, x-frame-options"
+      },
+      {
+        "descripcion": "No se revela la tecnologia (X-Powered-By ausente)",
+        "resultado": "FALLIDO",
+        "observado": "X-Powered-By='Express'"
+      },
+      {
+        "descripcion": "CORS restringido (no '*')",
+        "resultado": "FALLIDO",
+        "observado": "Access-Control-Allow-Origin='*'"
+      },
+      {
+        "descripcion": "CSRF: la sesion no usa cookies (token en cabecera Authorization)",
+        "resultado": "APROBADO",
+        "observado": "Set-Cookie=ausente"
+      }
+    ]
+  },
+  "CP-19": {
+    "id": "CP-19",
+    "subpruebas": [
+      {
+        "descripcion": "Token firmado con el secreto por defecto 'inseguro' es rechazado",
+        "resultado": "APROBADO",
+        "observado": "HTTP 401"
+      },
+      {
+        "descripcion": "Token firmado con el secreto publicado en el repositorio es rechazado",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200 (secreto presente en README.md/.env del repositorio: README.md=contiene el secreto, .env=contiene el secreto)"
+      },
+      {
+        "descripcion": "El codigo no contiene secreto de respaldo 'inseguro'",
+        "resultado": "FALLIDO",
+        "observado": "ocurrencias de || \"inseguro\" en BACKEND/src=9"
+      }
+    ]
+  },
+  "CP-20": {
+    "id": "CP-20",
+    "subpruebas": [
+      {
+        "descripcion": "Cliente sin campos obligatorios rechazado con 400",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 500; cuerpo={\"error\":\"Error al crear cliente\",\"glosa\":\"null value in column \\\"nombre\\\" of relation \\\"clientes\\\" violates not-null co"
+      },
+      {
+        "descripcion": "Correo con formato invalido rechazado con 400",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 500"
+      },
+      {
+        "descripcion": "Filtro por nombre devuelve coincidencias",
+        "resultado": "APROBADO",
+        "observado": "HTTP 200; resultados=1"
+      },
+      {
+        "descripcion": "Paginacion (limit=2) devuelve como maximo 2 clientes",
+        "resultado": "FALLIDO",
+        "observado": "HTTP 200; filas devueltas=9"
+      }
+    ]
+  },
+  "CP-21": {
+    "id": "CP-21",
+    "subpruebas": [
+      {
+        "descripcion": "Respaldo con pg_dump y restauracion en otra BD con datos identicos",
+        "resultado": "APROBADO",
+        "observado": "usuarios: origen=17 restaurado=17; clientes: origen=12 restaurado=12; contratos: origen=23 restaurado=23; auditoria: origen=525 restaurado=525"
+      },
+      {
+        "descripcion": "Existe un respaldo periodico automatizado en el proyecto",
+        "resultado": "FALLIDO",
+        "observado": "referencias a backup/cron/pg_dump en docker-compose, Dockerfile y scripts=0"
+      }
+    ]
+  }
+}

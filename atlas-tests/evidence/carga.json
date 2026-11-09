@@ -1,0 +1,30 @@
+[
+  {
+    "fase": "Lectura simple (GET cliente por id)",
+    "ruta": "/clientes/1",
+    "usuarios": 200,
+    "segundos": 20,
+    "solicitudes": 13427,
+    "errores": 0,
+    "tasaError": 0,
+    "promedioMs": 298,
+    "p95Ms": 379,
+    "p99Ms": 580,
+    "maxMs": 824,
+    "rps": 671.4
+  },
+  {
+    "fase": "Listado de clientes (GET /clientes)",
+    "ruta": "/clientes",
+    "usuarios": 200,
+    "segundos": 20,
+    "solicitudes": 1000,
+    "errores": 0,
+    "tasaError": 0,
+    "promedioMs": 4127,
+    "p95Ms": 4234,
+    "p99Ms": 4253,
+    "maxMs": 4255,
+    "rps": 50
+  }
+]

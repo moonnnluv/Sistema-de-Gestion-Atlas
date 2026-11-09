@@ -1,0 +1,281 @@
+{
+  "viewports": [
+    {
+      "nombre": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "msLoginYRedireccion": 4179,
+      "urlFinal": "http://localhost:3350/home",
+      "login": {
+        "anchoDocumento": 1920,
+        "anchoVentana": 1920,
+        "desbordaHorizontal": false,
+        "fuenteMinPx": 12.25,
+        "textosMenores12px": 0,
+        "ejemplosMenores12px": [],
+        "interactivos": 5,
+        "objetivosMenores24px": 1,
+        "objetivosMenores44px": 4,
+        "camposSinEtiqueta": 0
+      },
+      "loginAxe": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "nodos": 1,
+          "ayuda": "Elements must meet minimum color contrast ratio thresholds"
+        }
+      ],
+      "home": {
+        "anchoDocumento": 1920,
+        "anchoVentana": 1920,
+        "desbordaHorizontal": false,
+        "fuenteMinPx": 10.5,
+        "textosMenores12px": 3,
+        "ejemplosMenores12px": [
+          "Versión 1.0.0",
+          "Fecha de vencimiento: 2026-11-",
+          "Fecha de vencimiento: 2026-11-"
+        ],
+        "interactivos": 11,
+        "objetivosMenores24px": 0,
+        "objetivosMenores44px": 4,
+        "camposSinEtiqueta": 0
+      },
+      "homeAxe": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "nodos": 3,
+          "ayuda": "Elements must meet minimum color contrast ratio thresholds"
+        },
+        {
+          "id": "list",
+          "impacto": "serious",
+          "nodos": 1,
+          "ayuda": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements"
+        }
+      ]
+    },
+    {
+      "nombre": "laptop-1366x768",
+      "width": 1366,
+      "height": 768,
+      "msLoginYRedireccion": 4079,
+      "urlFinal": "http://localhost:3350/home",
+      "login": {
+        "anchoDocumento": 1366,
+        "anchoVentana": 1366,
+        "desbordaHorizontal": false,
+        "fuenteMinPx": 12.25,
+        "textosMenores12px": 0,
+        "ejemplosMenores12px": [],
+        "interactivos": 5,
+        "objetivosMenores24px": 1,
+        "objetivosMenores44px": 4,
+        "camposSinEtiqueta": 0
+      },
+      "loginAxe": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "nodos": 1,
+          "ayuda": "Elements must meet minimum color contrast ratio thresholds"
+        }
+      ],
+      "home": {
+        "anchoDocumento": 1366,
+        "anchoVentana": 1366,
+        "desbordaHorizontal": false,
+        "fuenteMinPx": 10.5,
+        "textosMenores12px": 3,
+        "ejemplosMenores12px": [
+          "Versión 1.0.0",
+          "Fecha de vencimiento: 2026-11-",
+          "Fecha de vencimiento: 2026-11-"
+        ],
+        "interactivos": 11,
+        "objetivosMenores24px": 0,
+        "objetivosMenores44px": 4,
+        "camposSinEtiqueta": 0
+      },
+      "homeAxe": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "nodos": 3,
+          "ayuda": "Elements must meet minimum color contrast ratio thresholds"
+        },
+        {
+          "id": "list",
+          "impacto": "serious",
+          "nodos": 1,
+          "ayuda": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements"
+        }
+      ]
+    },
+    {
+      "nombre": "tablet-768x1024",
+      "width": 768,
+      "height": 1024,
+      "msLoginYRedireccion": 4054,
+      "urlFinal": "http://localhost:3350/home",
+      "login": {
+        "anchoDocumento": 768,
+        "anchoVentana": 768,
+        "desbordaHorizontal": false,
+        "fuenteMinPx": 12.25,
+        "textosMenores12px": 0,
+        "ejemplosMenores12px": [],
+        "interactivos": 5,
+        "objetivosMenores24px": 1,
+        "objetivosMenores44px": 4,
+        "camposSinEtiqueta": 0
+      },
+      "loginAxe": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "nodos": 1,
+          "ayuda": "Elements must meet minimum color contrast ratio thresholds"
+        }
+      ],
+      "home": {
+        "anchoDocumento": 768,
+        "anchoVentana": 768,
+        "desbordaHorizontal": false,
+        "fuenteMinPx": 10.5,
+        "textosMenores12px": 3,
+        "ejemplosMenores12px": [
+          "Versión 1.0.0",
+          "Fecha de vencimiento: 2026-11-",
+          "Fecha de vencimiento: 2026-11-"
+        ],
+        "interactivos": 11,
+        "objetivosMenores24px": 0,
+        "objetivosMenores44px": 4,
+        "camposSinEtiqueta": 0
+      },
+      "homeAxe": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "nodos": 3,
+          "ayuda": "Elements must meet minimum color contrast ratio thresholds"
+        },
+        {
+          "id": "list",
+          "impacto": "serious",
+          "nodos": 1,
+          "ayuda": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements"
+        }
+      ]
+    },
+    {
+      "nombre": "smartphone-375x667",
+      "width": 375,
+      "height": 667,
+      "msLoginYRedireccion": 4105,
+      "urlFinal": "http://localhost:3350/home",
+      "login": {
+        "anchoDocumento": 375,
+        "anchoVentana": 375,
+        "desbordaHorizontal": false,
+        "fuenteMinPx": 12.25,
+        "textosMenores12px": 0,
+        "ejemplosMenores12px": [],
+        "interactivos": 5,
+        "objetivosMenores24px": 1,
+        "objetivosMenores44px": 4,
+        "camposSinEtiqueta": 0
+      },
+      "loginAxe": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "nodos": 1,
+          "ayuda": "Elements must meet minimum color contrast ratio thresholds"
+        }
+      ],
+      "home": {
+        "anchoDocumento": 375,
+        "anchoVentana": 375,
+        "desbordaHorizontal": false,
+        "fuenteMinPx": 10.5,
+        "textosMenores12px": 1,
+        "ejemplosMenores12px": [
+          "Versión 1.0.0"
+        ],
+        "interactivos": 11,
+        "objetivosMenores24px": 0,
+        "objetivosMenores44px": 2,
+        "camposSinEtiqueta": 0
+      },
+      "homeAxe": [
+        {
+          "id": "list",
+          "impacto": "serious",
+          "nodos": 1,
+          "ayuda": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements"
+        },
+        {
+          "id": "scrollable-region-focusable",
+          "impacto": "serious",
+          "nodos": 3,
+          "ayuda": "Scrollable region must have keyboard access"
+        }
+      ]
+    }
+  ],
+  "teclado": [
+    {
+      "etiqueta": "input",
+      "tipo": "text",
+      "texto": "",
+      "indicadorFoco": true
+    },
+    {
+      "etiqueta": "input",
+      "tipo": "password",
+      "texto": "",
+      "indicadorFoco": true
+    },
+    {
+      "etiqueta": "button",
+      "tipo": "submit",
+      "texto": "Entrar",
+      "indicadorFoco": true
+    },
+    {
+      "etiqueta": "a",
+      "tipo": null,
+      "texto": "Regístrate",
+      "indicadorFoco": true
+    },
+    {
+      "etiqueta": "button",
+      "tipo": null,
+      "texto": "Guía inicial",
+      "indicadorFoco": true
+    },
+    {
+      "etiqueta": "body",
+      "tipo": null,
+      "texto": "Iniciar Sesión\nNombre de usuar",
+      "indicadorFoco": false
+    },
+    {
+      "etiqueta": "input",
+      "tipo": "text",
+      "texto": "",
+      "indicadorFoco": true
+    },
+    {
+      "etiqueta": "input",
+      "tipo": "password",
+      "texto": "",
+      "indicadorFoco": true
+    }
+  ],
+  "cargaLogin3G_ms": 2703
+}

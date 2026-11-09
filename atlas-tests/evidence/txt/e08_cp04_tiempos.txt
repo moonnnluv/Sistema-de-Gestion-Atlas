@@ -1,0 +1,9 @@
+$ resultados de CP-04 (evidence/results.json)
+
+[OK]    POST /clientes (50 it.): n=50 prom=9ms p95=16ms p99=21ms max=21ms
+[OK]    GET /clientes/:id (50 it.): n=50 prom=5ms p95=8ms p99=10ms max=10ms
+[OK]    PUT /clientes/:id (50 it.): n=50 prom=9ms p95=28ms p99=37ms max=37ms
+[OK]    DELETE /clientes/:id (50 it.): n=50 prom=11ms p95=30ms p99=61ms max=61ms
+[FALLA] GET /clientes lista (10 it.): n=10 prom=4011ms p95=4024ms p99=4024ms max=4024ms
+[FALLA] GET /contratos lista (3 it.): n=3 prom=4008ms p95=4010ms p99=4010ms max=4010ms
+[FALLA] POST /autenticacion/login (3 it.): n=3 prom=4013ms p95=4014ms p99=4014ms max=4014ms

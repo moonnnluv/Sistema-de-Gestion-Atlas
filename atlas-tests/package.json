@@ -1,0 +1,22 @@
+{
+  "name": "atlas-tests",
+  "version": "1.0.0",
+  "description": "Pruebas de integracion y seguridad del Sistema de Gestion Atlas (ISY1102, Encargo 2)",
+  "private": true,
+  "scripts": {
+    "test": "jest --runInBand --verbose",
+    "test:api": "jest --runInBand --verbose tests/api.test.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 600000
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.12.0"
+  }
+}

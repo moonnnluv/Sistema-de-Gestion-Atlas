@@ -1,0 +1,9 @@
+$ curl -X POST /empresas (correo de empresa ya registrado)
+{"error":"Error al crear empresa con usuario","glosa":"duplicate key value violates unique constraint \"empresas_correo_key\""}
+HTTP 500
+
+$ psql -c "SELECT id, nombre_usuario FROM usuarios WHERE nombre_usuario='ev_dup';"  # usuario huerfano
+id | nombre_usuario 
+----+----------------
+ 10 | ev_dup
+(1 row)

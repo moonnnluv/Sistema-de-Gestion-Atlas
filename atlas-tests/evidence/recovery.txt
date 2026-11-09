@@ -1,0 +1,2 @@
+durante la caida: HTTP 000
+tiempo hasta responder nuevamente tras reinicio manual del proceso: 0.90 s

@@ -1,0 +1,5 @@
+$ psql -d atlas -c "SELECT nombre, nombre_banco, numero_cuenta, titular_cuenta FROM clientes WHERE id=2;"
+nombre     | nombre_banco | numero_cuenta |      titular_cuenta      
+---------------+--------------+---------------+--------------------------
+ Pedro Morales | Banco BCI    | 4567891230    | Constructora Andes Ltda.
+(1 row)

@@ -1,0 +1,30 @@
+[
+  {
+    "ancho": 1920,
+    "menuAncho": 240,
+    "mainAncho": 1680,
+    "ventana": 1920,
+    "porcentajeMenu": 13
+  },
+  {
+    "ancho": 1366,
+    "menuAncho": 240,
+    "mainAncho": 1126,
+    "ventana": 1366,
+    "porcentajeMenu": 18
+  },
+  {
+    "ancho": 768,
+    "menuAncho": 240,
+    "mainAncho": 528,
+    "ventana": 768,
+    "porcentajeMenu": 31
+  },
+  {
+    "ancho": 375,
+    "menuAncho": 240,
+    "mainAncho": 135,
+    "ventana": 375,
+    "porcentajeMenu": 64
+  }
+]
